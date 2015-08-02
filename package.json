@@ -1,0 +1,11 @@
+{
+  "name": "seneca-knex",
+  "version": "0.0.1",
+  "description": "Seneca integration for the knex query builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "faucet"
+  },
+  "author": "Adrian Rossouw",
+  "license": "MIT"
+}
