@@ -44,8 +44,8 @@ seneca.add('role:knex,cmd:register,name:blog,filter:byUser', function(args, done
 });
 
 // fetch the blog posts for a specific user.
-seneca.act('cmd:query,name:blog,filter:byUser', { uid: 1 }, function(args, done) {
-  console.log(args.rows);
+seneca.act('cmd:query,name:blog,filter:byUser', { uid: 1 }, function(err, rows) {
+  console.log(rows);
 
   done();
 });
