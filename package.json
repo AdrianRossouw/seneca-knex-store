@@ -2,10 +2,16 @@
   "name": "seneca-knex",
   "version": "0.0.1",
   "description": "Seneca integration for the knex query builder",
-  "main": "index.js",
+  "main": "./seneca-knex.js",
   "scripts": {
     "test": "faucet"
   },
   "author": "Adrian Rossouw",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "faucet": "0.0.1",
+    "knex": "^0.8.6",
+    "seneca": "^0.6.4",
+    "tape": "^4.0.1"
+  }
 }
