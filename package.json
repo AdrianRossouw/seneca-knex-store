@@ -1,8 +1,8 @@
 {
-  "name": "seneca-knex",
+  "name": "seneca-knex-store",
   "version": "0.0.1",
-  "description": "Seneca integration for the knex query builder",
-  "main": "./seneca-knex.js",
+  "description": "Seneca store integration for the knex query builder",
+  "main": "./knex-store.js",
   "scripts": {
     "test": "faucet"
   },
@@ -11,7 +11,12 @@
   "dependencies": {
     "faucet": "0.0.1",
     "knex": "^0.8.6",
-    "seneca": "^0.6.4",
+    "lodash": "^3.10.1",
+    "node-uuid": "^1.4.3",
+    "seneca": "^0.6.5",
     "tape": "^4.0.1"
+  },
+  "devDependencies": {
+    "sqlite3": "^3.1.0"
   }
 }
