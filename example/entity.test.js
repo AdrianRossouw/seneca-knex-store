@@ -17,7 +17,7 @@ var fixture = {
   createdBy: 'adrian'
 };
 
-describe('example queries', function() {
+describe('example seneca calls', function() {
 	var id = null;
 	var loadedEnt = null;
 
