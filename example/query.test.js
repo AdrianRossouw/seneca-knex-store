@@ -1,8 +1,9 @@
 /* jshint mocha: true */
+var conn = require('./connection');
 
 var assert = require('assert');
 
-var query = require('./query');
+var queries = require('./queries');
 
 var fixture = {
   id: '12345',
@@ -14,27 +15,18 @@ var fixture = {
 
 describe('example queries', function() {
   before(function(done) {
-    query.install()
-    .then(done.bind(null, null));
-
+    install().then(done.bind(null, null));
   });
 
-  after(function(done) {
-
-    query.uninstall()
-      .then(done.bind(null, null));
-
-
-  });
 
 	it('insert', function(done) {
-		query.insert(fixture, done)
+		queries.insert(fixture, done)
 			.then(done.bind(null, null))
 			.catch(done);
 	});
 
 	it('read', function(done) {
-		query.read({ id: fixture.id })
+		queries.read({ id: fixture.id })
 			.then(function(rows) {
 				var row = rows[0];
 				assert.equal(row.id, fixture.id);
@@ -45,14 +37,22 @@ describe('example queries', function() {
 	});
 
 	it('update', function(done) {
-		query.update(fixture)
+		queries.update(fixture)
 			.then(function(rows) { done(); })
 			.catch(done);
 		});
 		
 	it('remove', function(done) {
-		query.remove({ id: fixture.id })
+		queries.remove({ id: fixture.id })
 			.then(function() { done(); })
 			.catch(done);
 	});
 });
+
+function install(opts) {
+  return query().raw(''+ fs.readFileSync(__dirname + '/schema.sql'));
+};
+
+function uninstall(opts) {
+  return query().raw('drop table blog_post');
+};
