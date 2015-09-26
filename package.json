@@ -1,6 +1,6 @@
 {
   "name": "seneca-knex-store",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a non-traditional seneca entity store that expects you to write your own queries",
   "main": "./knex-store.js",
   "scripts": {
