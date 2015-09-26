@@ -1,6 +1,6 @@
 var query = require('./connection');
 var _ = require('lodash');
-
+var fs = require('fs');
 
 function _setColumns(opts) {
   return {
@@ -21,8 +21,8 @@ function _getColumns(opts) {
 }
 
 function list(opts) {
-  var knex = query('blog_post');
-
+  var knex = query().table('blog_post');
+  
   knex.select(_getColumns(opts));
 
   return knex;
@@ -37,7 +37,7 @@ function read(opts) {
 }
 
 function insert(opts) {
-  var knex = query('blog_post');
+  var knex = query().table('blog_post');
 
   knex.insert(_setColumns(opts));
 
@@ -45,7 +45,7 @@ function insert(opts) {
 }
 
 function update(opts) {
-  var knex = query('blog_post');
+  var knex = query.table('blog_post');
   var columns = _.omit(_setColumns(opts), 'id');
 
   knex.where('id', opts.id);
@@ -55,7 +55,7 @@ function update(opts) {
 }
 
 function remove(opts) {
-  var knex = query('blog_post');
+  var knex = query().table('blog_post');
 
   knex.where('id', opts.id);
   knex.del();
@@ -63,10 +63,20 @@ function remove(opts) {
   return knex;
 }
 
+function install(opts) {
+  return query().raw(''+ fs.readFileSync(__dirname + '/schema.sql'));
+};
+
+function uninstall(opts) {
+  return query().raw('drop table blog_post');
+};
+
 module.exports = {
   insert: insert,
   update: update,
   read: read,
   list: list,
-  remove: remove
+  remove: remove,
+  install: install,
+  uninstall: uninstall
 };

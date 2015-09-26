@@ -5,6 +5,6 @@ var knex = require('knex')({
 	}
 });
 
-module.exports = function(opts) {
-  return knex(opts);
+module.exports = function() {
+  return knex;
 }

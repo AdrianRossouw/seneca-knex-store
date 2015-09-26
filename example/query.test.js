@@ -13,6 +13,20 @@ var fixture = {
 };
 
 describe('example queries', function() {
+  before(function(done) {
+    query.install()
+    .then(done.bind(null, null));
+
+  });
+
+  after(function(done) {
+
+    query.uninstall()
+      .then(done.bind(null, null));
+
+
+  });
+
 	it('insert', function(done) {
 		query.insert(fixture, done)
 			.then(done.bind(null, null))

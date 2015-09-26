@@ -20,9 +20,10 @@ module.exports = function CreateStore(entity, queries) {
         var query;
 
         if (update) {
-          query = queries.update(ent)
+          query = queries.update(ent);
 
           seneca.log.info(query.toString(), err);
+
           query.then(function(res) {
               seneca.log(args.tag$, 'update', query.toString());
               cb(null, ent);
