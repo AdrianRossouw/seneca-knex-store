@@ -2,14 +2,14 @@
 var senecaStore = require('seneca/lib/store');
 var uuid = require('node-uuid');
 
-
 module.exports = function CreateStore(entity, queries) {
   return function(opts) {
     var seneca = this;
 
     var storeOpts = {map:{}};
     storeOpts.map[entity] = '*';
-    log.info('register store', entity);
+    seneca.log.info('register store', entity);
+
     var storeCmds = {
 
       name: entity,
@@ -22,40 +22,44 @@ module.exports = function CreateStore(entity, queries) {
         if (update) {
           query = queries.update(ent);
 
-          seneca.log.info(query.toString(), err);
+          process.env.LOG_QUERY && console.log('entity.update', query.toString());
 
           query.then(function(res) {
-              seneca.log(args.tag$, 'update', query.toString());
               cb(null, ent);
             }, function(err) {
               seneca.fail({ code: 'update', tag: args.tag$, store: entity,  error: err }, cb);
             });
 
         } else {
-          ent.id = ent.id$ || uuid()
+          ent.id = ent.id$ || uuid();
 
           var query = queries.insert(ent);
 
-          seneca.log.info(query.toString(), err);
+          process.env.LOG_QUERY && console.log('entity.insert', query.toString());
+
           query.then(function(res) {
             cb(null, ent);
           }, function(err) {
-            seneca.log.error(query.toString(), err);
             seneca.fail({code: 'save', tag: args.tag$, store: entity, error: err}, cb);
           });
         }
       },
 
       load: function (args, cb) {
-        var query = queries.load(args)
+        var ent = args.ent;
+
+        var query = queries.load(args.q);
+
+        process.env.LOG_QUERY && console.log('entity.load', query.toString());
+
         query.then(function(rows) {
+          seneca.log(args.tag$, 'load', ent);
+
           if (rows && rows.length) {
-            ent.make$(rows[0]);
+            ent.data$(rows[0]);
           }
 
-          seneca.log(args.tag$, 'load', args.ent);
-
-          cb(null, args.q);
+          cb(null, ent);
         }, function(err) {
           seneca.log.error(query.toString(), query.values, trace.stack);
           seneca.fail({code: 'load', tag: args.tag$, store: store.name, query: query, error: err}, cb);
@@ -65,10 +69,12 @@ module.exports = function CreateStore(entity, queries) {
 
       list: function (args, cb) {
         var qent = args.qent;
-        var q = args.q;
 
-        queries.list(args.q)
-          .then(function(rows) {
+        var query = queries.list(args.q);
+
+        process.env.LOG_QUERY && console.log('entity.list', query.toString());
+
+        query.then(function(rows) {
             var list = rows.map(function(row) {	return qent.make$(row);	});
             seneca.log(args.tag$, 'list', list.length, list[0]);
             cb(null, list);
@@ -82,8 +88,11 @@ module.exports = function CreateStore(entity, queries) {
         var qent = args.qent;
         var q = args.q;
 
-        queries.remove(args)
-          .then(function(res) {
+        var query = queries.remove(args)
+
+        process.env.LOG_QUERY && console.log('entity.remove', query.toString());
+
+        query.then(function(res) {
             cb(null, res.rowCount);
             seneca.log(args.tag$, 'remove', res.rowCount);
           }, function(err) {
@@ -97,4 +106,3 @@ module.exports = function CreateStore(entity, queries) {
     senecaStore.init(seneca, storeOpts, storeCmds);
   };
 };
-

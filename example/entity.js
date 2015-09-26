@@ -1,15 +1,8 @@
-var query = require('./query');
+var queries = require('./queries');
 var store = require('../knex-store');
 
 module.exports = function(opts) {
 	var seneca = this;
 
-	seneca.use(store('blog', {
-		insert: query.insert,
-		update: query.update,
-		remove: query.remove,
-		list: query.list,
-		load: query.load
-	}));
-
+  seneca.use(store('-/-/blog', queries));
 };

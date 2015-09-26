@@ -6,7 +6,7 @@ function _setColumns(opts) {
   return {
     id: opts.id,
     content: opts.content,
-    type: opts.type,
+    title: opts.title,
     created_by: opts.createdBy,
     created_date: opts.createdDate
   };
@@ -28,7 +28,7 @@ function list(opts) {
   return knex;
 }
 
-function read(opts) {
+function load(opts) {
   var knex = list(opts);
 
   knex.where('id', opts.id);
@@ -45,7 +45,7 @@ function insert(opts) {
 }
 
 function update(opts) {
-  var knex = query.table('blog_post');
+  var knex = query().table('blog_post');
   var columns = _.omit(_setColumns(opts), 'id');
 
   knex.where('id', opts.id);
@@ -74,7 +74,7 @@ function uninstall(opts) {
 module.exports = {
   insert: insert,
   update: update,
-  read: read,
+  load: load,
   list: list,
   remove: remove,
   install: install,
