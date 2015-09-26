@@ -1,7 +1,7 @@
 {
   "name": "seneca-knex-store",
   "version": "0.0.1",
-  "description": "Seneca store integration for the knex query builder",
+  "description": "a non-traditional seneca entity store that expects you to write your own queries",
   "main": "./knex-store.js",
   "scripts": {
     "test": "mocha */*.test.js"
