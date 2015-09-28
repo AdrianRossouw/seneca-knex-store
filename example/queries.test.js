@@ -53,7 +53,7 @@ describe('example queries', function() {
 		
 	it('remove', function(done) {
 		queries.remove({ id: fixture.id })
-    .then(function() { return queries.load({ id: fixture.id }) })
+    .then(function() { return queries.load({ id: fixture.id }); })
     .then(function(data) {
       assert.equal(data.length, 0);
 
@@ -61,5 +61,15 @@ describe('example queries', function() {
     })
     .catch(done);
 	});
+
+  it('load after remove', function (done) {
+    queries.load({ id: fixture.id })
+      .then(function(rows) {
+        var row = rows[0];
+        assert.equal(row, undefined);
+        done();
+      })
+      .catch(done);
+  });
 });
 
