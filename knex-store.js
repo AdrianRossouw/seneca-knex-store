@@ -57,9 +57,10 @@ module.exports = function CreateStore(entity, queries) {
 
           if (rows && rows.length) {
             ent.data$(rows[0]);
+            cb(null, ent);
+          } else {
+            cb(null, undefined);
           }
-
-          cb(null, ent);
         }, function(err) {
           seneca.log.error(query.toString(), query.values, trace.stack);
           seneca.fail({code: 'load', tag: args.tag$, store: store.name, query: query, error: err}, cb);
