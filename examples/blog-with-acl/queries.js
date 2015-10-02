@@ -64,6 +64,8 @@ function remove(opts) {
 }
 
 function install(opts) {
+  console.log(__dirname + '/schema.sql')
+
   return query().raw(''+ fs.readFileSync(__dirname + '/schema.sql'));
 };
 
