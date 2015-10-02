@@ -1,12 +1,17 @@
 {
   "name": "seneca-knex-store",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "a non-traditional seneca entity store that expects you to write your own queries",
   "main": "./knex-store.js",
   "scripts": {
-    "test": "mocha */*.test.js"
+    "test": "mocha ./examples/*/*.test.js"
   },
   "author": "Adrian Rossouw",
+  "contributors": [
+    "Adrian Rossouw (https://github.com/AdrianRossouw)",
+    "Mike Cote (https://github.com/CEXMCote)",
+    "Robb Dempsey (https://github.com/robbdempsey)"
+  ],
   "license": "MIT",
   "dependencies": {
     "knex": "^0.8.6",
