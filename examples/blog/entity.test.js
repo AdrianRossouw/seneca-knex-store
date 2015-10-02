@@ -16,22 +16,22 @@ describe('blog seneca calls', function() {
 	var loadedEnt = null;
 
   before(function(done) {
-    queries.install()
-      .then(done.bind(null, null))
-      .catch(done);
+	queries.install()
+	  .then(done.bind(null, null))
+	  .catch(done);
   });
 
   after(function(done) {
-    queries.uninstall()
-      .then(done.bind(null, null))
-      .catch(done);
+	queries.uninstall()
+	  .then(done.bind(null, null))
+	  .catch(done);
   });
 
 	it('insert', function(done) {
 		var ent = seneca.make$('-/-/blog');
 
 		ent.title = fixture.title;
-    ent.content = fixture.content;
+		ent.content = fixture.content;
 		ent.createdBy = fixture.createdBy;
 		ent.createdDate = fixture.createdDate;
 
@@ -43,8 +43,10 @@ describe('blog seneca calls', function() {
 
 	it('load', function(done) {
 		var ent = seneca.make$('-/-/blog');
-    ent.load$({ id: id }, function(err, row) {
+
+		ent.load$({ id: id }, function(err, row) {
 			loadedEnt = row;
+
 			assert.equal(row.id, id);
 			assert.equal(row.createdDate, fixture.createdDate);
 			done();
@@ -54,24 +56,29 @@ describe('blog seneca calls', function() {
 	it('update', function(done) {
 		loadedEnt.content = 'test changed';
 
-    loadedEnt.save$(function(err, ent) {
-      queries.load({ id: ent.id })
-        .then(function(rows) {
-          assert.equal(rows[0].content, loadedEnt.content);
+		loadedEnt.save$(function(err, ent) {
+			var _query = {
+				q: {
+					id: ent.id
+				}
+			}
 
-          done();
-        });
+		  	queries.load(_query)
+				.then(function(rows) {
+
+					assert.equal(rows[0].content, loadedEnt.content);
+					done();
+				});
 		});
 	});
 
 	it('remove', function(done) {
-		queries.remove({ id: fixture.id })
-      .then(function(res) { return queries.load({ id: fixture.id }); })
-      .then(function(res) {
-        assert.equal(res.length, 0);
+		var ent = seneca.make$('-/-/blog');
+		ent.id = id;
 
-        done();
-      })
-      .catch(done);
+		ent.remove$(function(err, result) {
+			assert.equal(1, result.rowCount);
+			done();
+		})
 	});
 });

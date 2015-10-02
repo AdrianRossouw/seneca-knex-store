@@ -17,4 +17,4 @@ You do not want to use this library if :
 * You want sql queries to be generated for you.
 * You need a seneca entity store you can just plug in.
 
-__See example folder for more__
+__See [example folder](./examples) for more__
