@@ -27,7 +27,9 @@ module.exports = function CreateStore(entity, queries) {
 					query.then(function(res) {
 							cb(null, ent);
 						}, function(err) {
-							seneca.fail({ code: 'update', tag: args.tag$, store: entity,  error: err }, cb);
+							seneca.log.error(err['routine'])
+							seneca.log.error(err.detail ? err.detail : err.message);
+							seneca.fail({code: 'update', start: args.meta$.start, store: 'knex-store'}, cb);
 						});
 
 				} else {
@@ -40,7 +42,9 @@ module.exports = function CreateStore(entity, queries) {
 					query.then(function(res) {
 						cb(null, args.ent);
 					}, function(err) {
-						seneca.fail({code: 'save', tag: args.tag$, store: entity, error: err}, cb);
+						seneca.log.error(err['routine'])
+						seneca.log.error(err.detail ? err.detail : err.message);
+						seneca.fail({code: 'save', start: args.meta$.start, store: 'knex-store'}, cb);
 					});
 				}
 			},
@@ -62,8 +66,9 @@ module.exports = function CreateStore(entity, queries) {
 						cb(null, undefined);
 					}
 				}, function(err) {
-					seneca.log.error(query.toString(), query.values, trace.stack);
-					seneca.fail({code: 'load', tag: args.tag$, store: store.name, query: query, error: err}, cb);
+					seneca.log.error(err['routine'])
+					seneca.log.error(err.detail ? err.detail : err.message);
+					seneca.fail({code: 'load', start: args.meta$.start, store: 'knex-store'}, cb);
 				});
 			},
 
@@ -80,7 +85,9 @@ module.exports = function CreateStore(entity, queries) {
 						seneca.log(args.tag$, 'list', list.length, list[0]);
 						cb(null, list);
 					}, function(err) {
-						seneca.fail({code: 'list', tag: args.tag$, store: store.name, query: query, error: err}, cb);
+						seneca.log.error(err['routine'])
+						seneca.log.error(err.detail ? err.detail : err.message);
+						seneca.fail({code: 'list', start: args.meta$.start, store: 'knex-store'}, cb);
 					});
 
 			},
