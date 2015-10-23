@@ -21,6 +21,7 @@
     "seneca": "^0.6.5"
   },
   "devDependencies": {
+    "pg": "^4.4.3",
     "sqlite3": "^3.1.0"
   }
 }
