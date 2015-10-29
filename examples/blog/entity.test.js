@@ -81,4 +81,18 @@ describe('blog seneca calls', function() {
 			done();
 		})
 	});
+
+	it('native', function(done) {
+		var ent = seneca.make$('-/-/blog');
+		ent.id = id;
+
+		ent.native$(function(err, queries) {
+			assert.ok(queries.insert);
+			assert.ok(queries.update);
+			assert.ok(queries.load);
+			assert.ok(queries.list);
+			assert.ok(queries.remove);
+			done();
+		})
+	});
 });
