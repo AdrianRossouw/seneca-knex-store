@@ -108,7 +108,7 @@ module.exports = function CreateStore(entity, queries) {
 			},
 
 			close: function (cb) { /* noop */  },
-			native: function (args, done) {	done(null);	}
+			native: function (args, done) {	done(null, queries);	}
 		};
 		senecaStore.init(seneca, storeOpts, storeCmds);
 	};
